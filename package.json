@@ -1,0 +1,16 @@
+{
+  "name": "mrsprite",
+  "version": "1.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "author": "mrspd",
+  "license": "ISC",
+  "dependencies": {
+    "images": "^3.0.0",
+    "parse-cli-arguments": "^1.0.1"
+  },
+  "bin": {
+    "mrsprite": "cli.js"
+  }
+}
