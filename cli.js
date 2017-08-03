@@ -27,12 +27,15 @@ const argsConfiguration = {
                 if(path.isAbsolute(value)) return value;
                 return path.resolve(value);
             }
+        },
+        episode: {
+            flag: true,
+            alias: 'e'
         }
     }
 };
 
-
 let args = argsParser(argsConfiguration);
-let mrsprite = new Mrsprite(args.imagePath, args.mode, args.output);
+let mrsprite = new Mrsprite(args.imagePath, args.mode, args.output, args.episode);
 
 mrsprite.make();
