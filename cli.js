@@ -31,11 +31,16 @@ const argsConfiguration = {
         episode: {
             flag: true,
             alias: 'e'
+        },
+        minimize: {
+            flag: true,
+            alias: 'c',
+            defaultValue: false
         }
     }
 };
 
 let args = argsParser(argsConfiguration);
-let mrsprite = new Mrsprite(args.imagePath, args.mode, args.output, args.episode);
+let mrsprite = new Mrsprite(args.imagePath, args.mode, args.output, args.episode, args.minimize);
 
 mrsprite.make();

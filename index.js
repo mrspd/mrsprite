@@ -1,13 +1,17 @@
 let images = require('images'),
     fs = require('fs'),
-    path = require('path');
+    path = require('path'),
+    imagemin = require('imagemin'),
+    imageminPngquant = require('imagemin-pngquant');
+
 
 class Mrsprite {
-    constructor(imagePath, mode, output, episode) {
+    constructor(imagePath, mode, output, episode, minimize) {
         this.imagePath = imagePath;
         this.mode = mode;
         this.output = output;
         this.episode = episode;
+        this.minimize = minimize;
     }
 
     makeSprite(dirpath) {
@@ -23,6 +27,8 @@ class Mrsprite {
             });
 
         if(!imageList.length) return false;
+
+        images.setLimit(30000, 30000);
 
         let tplImage = images(path.resolve(dirpath, imageList[0])),
             blank = images(tplImage.width() * imageList.length, tplImage.height());
@@ -160,7 +166,7 @@ class Mrsprite {
             strings.push(`\twidth: ${object.frameWidth}px;`);
             strings.push(`\theight: ${object.frameHeight}px;`);
             strings.push(`\tbackground: url("@{imagesPath}/${name}.png") 0 0 no-repeat;`);
-            strings.push(`\tanimation: global-cycle-animation ${animationTime}s steps(${frames}) infinite;`);
+            strings.push(`\tanimation: global-cycle-animation ${animationTime}s steps(${frames - 1}) infinite;`);
             strings.push(`}\n`);
 
             selectors.push(strings.join("\n"));
@@ -172,6 +178,9 @@ class Mrsprite {
     make() {
         let outputPath = this.output;
         if(!outputPath) outputPath = path.resolve(process.cwd());
+
+        console.log('Creating...');
+        console.log(`Mode: ${this.mode}`);
 
         switch (this.mode) {
             case 'multiple':
@@ -202,6 +211,26 @@ class Mrsprite {
                 singleSprite.image.save(path.join(outputPath, path.basename(this.imagePath)) + '.png');
                 break;
         }
+
+        console.log('Spritesheet created...');
+
+        /*if(this.minimize) {
+            imagemin(['*.png'], 'optimized', {
+                plugins: [
+                    imageminPngquant({
+                        quality: 78,
+                        speed: 5,
+                        verbose: true,
+                        nofs: true,
+                        floyd: 1,
+                        posterize: 10
+
+                    })
+                ]
+            }).then(files => {
+                console.log('Spritesheet optimized...');
+            });
+        }*/
     }
 }
 

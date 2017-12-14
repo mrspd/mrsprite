@@ -1,12 +1,14 @@
 {
   "name": "mrsprite",
-  "version": "1.1.2",
+  "version": "1.1.4",
   "description": "Spritesheet generator with build-in vertical joiner.",
   "main": "index.js",
   "scripts": {},
   "author": "mrspd",
   "license": "ISC",
   "dependencies": {
+    "imagemin": "^5.3.1",
+    "imagemin-pngquant": "^5.0.1",
     "images": "^3.0.0",
     "parse-cli-arguments": "^1.0.1"
   },
